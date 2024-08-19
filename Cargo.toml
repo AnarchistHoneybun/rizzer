@@ -1,0 +1,11 @@
+[package]
+name = "rizzer"
+version = "0.1.0"
+edition = "2021"
+authors = ["Raj Singh <thatonebipanda@gmail.com>"]
+description = "Fuzzy matching tool to find string similarity"
+license = "MIT"
+
+
+[dependencies]
+unicode-normalization = "0.1.23"
