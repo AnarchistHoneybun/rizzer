@@ -1,3 +1,8 @@
+//! A library for performing fuzzy string matching.
+//!
+//! This library provides functions for fuzzy matching between a text and a pattern,
+//! with options for case sensitivity and Unicode normalization.
+
 use unicode_normalization::UnicodeNormalization;
 
 // Constants
@@ -7,16 +12,35 @@ const SCORE_GAP_EXTENSION: i32 = -1;
 const BONUS_BOUNDARY: i32 = SCORE_MATCH / 2;
 const BONUS_FIRST_CHAR_MULTIPLIER: i32 = 2;
 
+/// Normalizes a Unicode character.
+///
+/// # Arguments
+///
+/// * `r` - The character to normalize.
+///
+/// # Returns
+///
+/// The normalized character, or the original character if normalization fails.
 fn normalize_rune(r: char) -> char {
     r.to_lowercase().nfd().next().unwrap_or(r)
 }
 
+/// Represents the character class for bonus calculation.
 enum CharClass {
     White,
     Alnum,
     Punct,
 }
 
+/// Determines the character class of a given character.
+///
+/// # Arguments
+///
+/// * `c` - The character to classify.
+///
+/// # Returns
+///
+/// The `CharClass` of the input character.
 fn char_class(c: char) -> CharClass {
     if c.is_whitespace() {
         CharClass::White
@@ -27,6 +51,16 @@ fn char_class(c: char) -> CharClass {
     }
 }
 
+/// Calculates the bonus score based on the previous and current character classes.
+///
+/// # Arguments
+///
+/// * `prev_class` - The `CharClass` of the previous character.
+/// * `curr_class` - The `CharClass` of the current character.
+///
+/// # Returns
+///
+/// The calculated bonus score as an `i32`.
 fn bonus_for(prev_class: &CharClass, curr_class: &CharClass) -> i32 {
     match curr_class {
         CharClass::Alnum => match prev_class {
@@ -40,11 +74,20 @@ fn bonus_for(prev_class: &CharClass, curr_class: &CharClass) -> i32 {
 
 /// Performs a fuzzy match between `text` and `pattern`.
 ///
-/// Returns a tuple containing:
-/// - start index of the match in `text`
-/// - end index of the match in `text`
-/// - score of the match
-/// - vector of matched positions in `text`
+/// # Arguments
+///
+/// * `text` - The text to search in.
+/// * `pattern` - The pattern to search for.
+/// * `case_sensitive` - Whether the match should be case-sensitive.
+/// * `normalize` - Whether to apply Unicode normalization.
+///
+/// # Returns
+///
+/// A tuple containing:
+/// - start index of the match in `text` (isize)
+/// - end index of the match in `text` (isize)
+/// - score of the match (i32)
+/// - vector of matched positions in `text` (Vec<usize>)
 ///
 /// If no match is found, returns (-1, -1, 0, vec![]).
 pub fn fuzzy_match_v2(
@@ -160,9 +203,18 @@ pub fn fuzzy_match_v2(
     )
 }
 
-/// Performs a fuzzy match between `text` and `pattern` and returns only the score.
-///
 /// This is a simplified version of `fuzzy_match_v2` that only returns the match score.
+///
+/// # Arguments
+///
+/// * `text` - The text to search in.
+/// * `pattern` - The pattern to search for.
+/// * `case_sensitive` - Whether the match should be case-sensitive.
+/// * `normalize` - Whether to apply Unicode normalization.
+///
+/// # Returns
+///
+/// The match score as an `i32`.
 pub fn fuzzy_match_score(text: &str, pattern: &str, case_sensitive: bool, normalize: bool) -> i32 {
     let (_, _, score, _) = fuzzy_match_v2(text, pattern, case_sensitive, normalize);
     score
