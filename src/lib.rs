@@ -90,7 +90,7 @@ fn bonus_for(prev_class: &CharClass, curr_class: &CharClass) -> i32 {
 /// - vector of matched positions in `text` (Vec<usize>)
 ///
 /// If no match is found, returns (-1, -1, 0, vec![]).
-pub fn fuzzy_match_v2(
+pub fn fuzzy_match(
     text: &str,
     pattern: &str,
     case_sensitive: bool,
@@ -203,7 +203,7 @@ pub fn fuzzy_match_v2(
     )
 }
 
-/// This is a simplified version of `fuzzy_match_v2` that only returns the match score.
+/// This is a simplified version of `fuzzy_match` that only returns the match score.
 ///
 /// # Arguments
 ///
@@ -216,7 +216,7 @@ pub fn fuzzy_match_v2(
 ///
 /// The match score as an `i32`.
 pub fn fuzzy_match_score(text: &str, pattern: &str, case_sensitive: bool, normalize: bool) -> i32 {
-    let (_, _, score, _) = fuzzy_match_v2(text, pattern, case_sensitive, normalize);
+    let (_, _, score, _) = fuzzy_match(text, pattern, case_sensitive, normalize);
     score
 }
 
@@ -228,7 +228,7 @@ mod tests {
     fn test_fuzzy_match_v2() {
         let text = "abcdefghijklmnopqrstuvwxyz";
         let pattern = "ace";
-        let (start, end, score, positions) = fuzzy_match_v2(text, pattern, false, true);
+        let (start, end, score, positions) = fuzzy_match(text, pattern, false, true);
         assert_eq!(start, 0);
         assert_eq!(end, 5);
         assert!(score > 0);
