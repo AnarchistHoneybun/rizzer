@@ -1,5 +1,6 @@
 # rizzer
-## Fuzzy Matching Library
+
+Rust Fuzzy Matching Library
 
 ## Algorithm Description
 This library implements a fuzzy string matching algorithm
@@ -21,7 +22,7 @@ for searching within longer texts or lists of items.
 
 The library exposes two main functions:
 
-1. `fuzzy_match_v2(text: &str, pattern: &str, case_sensitive: bool, normalize: bool) -> (isize, isize, i32, Vec<usize>)`
+1. `fuzzy_match(text: &str, pattern: &str, case_sensitive: bool, normalize: bool) -> (isize, isize, i32, Vec<usize>)`
     - Performs a full fuzzy match between `text` and `pattern`.
     - Returns a tuple containing:
         - Start index of the match
