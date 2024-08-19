@@ -1,6 +1,6 @@
 [package]
 name = "rizzer"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 authors = ["Raj Singh <thatonebipanda@gmail.com>"]
 description = "Fuzzy matching tool to find string similarity"
