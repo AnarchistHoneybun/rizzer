@@ -5,6 +5,8 @@ edition = "2021"
 authors = ["Raj Singh <thatonebipanda@gmail.com>"]
 description = "Fuzzy matching tool to find string similarity"
 license = "MIT"
+readme = "README.md"
+repository = "https://github.com/AnarchistHoneybun/rizzer"
 
 
 [dependencies]
